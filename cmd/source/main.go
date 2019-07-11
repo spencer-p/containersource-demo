@@ -22,7 +22,7 @@ type envConf struct {
 }
 
 func main() {
-	log.Println("Starting up sink server")
+	log.Println("Starting up source container")
 
 	// Parse environment
 	var env envConf

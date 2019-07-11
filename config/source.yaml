@@ -1,0 +1,19 @@
+apiVersion: sources.eventing.knative.dev/v1alpha1
+kind: ContainerSource
+metadata:
+  name: source
+  labels:
+      controller-tools.k8s.io: "1.0"
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: source
+        image: github.com/spencer-p/containersource-demo/cmd/source
+        ports:
+        - containerPort: 8080
+  sink:
+    apiVersion: serving.knative.dev/v1alpha1
+    kind: Service
+    name: sink

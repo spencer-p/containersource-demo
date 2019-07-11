@@ -1,0 +1,18 @@
+apiVersion: serving.knative.dev/v1alpha1
+kind: Service
+metadata:
+  name: sink
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+          - image: github.com/spencer-p/containersource-demo/cmd/sink
+            ports:
+                - containerPort: 8080
+            env:
+                - name: GCHAT_WEBHOOK_URL
+                  valueFrom:
+                    secretKeyRef:
+                        name: gchat-secrets
+                        key: webhook-url

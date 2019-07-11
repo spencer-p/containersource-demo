@@ -39,6 +39,9 @@ func main() {
 		env.Port = "80"
 	}
 
+	// Add API path to the sink
+	env.Sink += "/api/v1/sink"
+
 	// Build our client object
 	log.Println("Sink endpoint is", env.Sink)
 

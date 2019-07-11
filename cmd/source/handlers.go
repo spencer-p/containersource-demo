@@ -6,14 +6,15 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/spencer-p/containersource-demo/pkg/sharedtypes"
+
 	cloudevents "github.com/cloudevents/sdk-go"
-	//client "github.com/cloudevents/sdk-go/pkg/cloudevents/client"
 )
 
 func fail(w http.ResponseWriter, msg string, err error) {
 	log.Printf("%s: %s\n", msg, err)
 	w.WriteHeader(http.StatusInternalServerError)
-	fmt.Fprint(w, "%s: %s\n", msg, err)
+	fmt.Fprintf(w, "%s: %s\n", msg, err)
 }
 
 // NewSourceEndpoint genereates an HTTP handler that translates its POST data into a cloud event.
@@ -41,7 +42,10 @@ func NewSourceEndpoint(client cloudevents.Client) http.HandlerFunc {
 				Type:   "dev.knative.eventing.spencerjp.containersource-demo",
 				Source: *source,
 			}.AsV02(),
-			Data: buf,
+			Data: sharedtypes.Message{
+				Origin: r.UserAgent(),
+				Data:   buf,
+			},
 		}
 
 		log.Printf("Sending a cloudevent with %d bytes of data\n", len(buf))

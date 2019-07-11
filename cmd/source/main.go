@@ -52,6 +52,7 @@ func main() {
 
 	s := http.Server{Addr: ":" + env.Port}
 	go func() {
+		log.Println("Serving on port", env.Port)
 		log.Fatal(s.ListenAndServe())
 	}()
 
